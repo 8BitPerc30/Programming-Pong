@@ -3,7 +3,7 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     Vector2 direction = Vector2.right;
-    float speed = 2.0f;
+    float speed = 4.0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,24 +26,33 @@ public class Ball : MonoBehaviour
         }
 
         // If the ball is too far left, make its x-direction positive (1%)
-        if (transform.position.x > 10.0f)
+        if (transform.position.x < -10.0f)
         {
-            direction.x = +direction.x;
+            direction.x = -direction.x;
         }
         // If the ball is too far up, make its y-direction negative (1%)
-        if (transform.position.y > 10.0f)
+        if (transform.position.y > 5.0f)
         {
             direction.y = -direction.y;
         }
         // If the ball is too far down, make its y-direction positive (1%)
-        if (transform.position.y > 10.0f)
+        if (transform.position.y < -5.0f)
         {
-            direction.y = +direction.y;
+            direction.y = -direction.y;
         }
 
         float dt = Time.deltaTime;
         Vector3 change = direction * speed * dt;
         transform.position += change;
+    }
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        // Check if the ball collides with "Player Two"
+        if (collision.gameObject.name == "Player Two")
+        {
+            // Reverse direction on collision
+            direction = Vector2.Reflect(direction, collision.contacts[0].normal);
+        }
     }
 }
 

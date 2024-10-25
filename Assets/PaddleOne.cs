@@ -16,14 +16,24 @@ public class PaddleOne : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if (Input.GetKey(KeyCode.W)) 
-       {
-        transform.Translate(Vector2.up * speed * Time.deltaTime);
-       }
+        if (Input.GetKey(KeyCode.W))
+        {
+            transform.Translate(Vector2.up * speed * Time.deltaTime);
+            Vector2 screenBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+            if (transform.position.y > screenBounds.y)
+            {
+                transform.position = new Vector3(transform.position.x, screenBounds.y, transform.position.z);
+            }
+        }
 
-       if (Input.GetKey(KeyCode.S)) 
-       {
-        transform.Translate(Vector2.down * speed * Time.deltaTime);
-       }
+        if (Input.GetKey(KeyCode.S))
+        {
+            transform.Translate(Vector2.down * speed * Time.deltaTime);
+            Vector2 screenBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+            if (transform.position.y < -screenBounds.y)
+            {
+                transform.position = new Vector3(transform.position.x, -screenBounds.y, transform.position.z);
+            }
+        }
     }
 }
